@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Function Inquiry Lab Pro - โรงเรียนวัดไร่ขิงวิทยา</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts (Sarabun) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; }
+        input[type=range] { accent-color: #2563eb; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
+
+    <!-- Header -->
+    <header class="bg-blue-900 text-white shadow-lg py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <span class="bg-blue-700 text-blue-100 text-xs px-2.5 py-1 rounded-full font-semibold border border-blue-500">5E Pro Lab</span> 
+                    ห้องปฏิบัติการสืบเสาะความรู้ฟังก์ชันกำลังสอง
+                </h1>
+                <p class="text-xs text-blue-200 mt-1">พัฒนาโดย นายเอกชัย สะอาดแก้ว — โรงเรียนวัดไร่ขิงวิทยา</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="resetAll()" class="bg-blue-800 hover:bg-blue-700 text-xs px-3 py-2 rounded-lg transition border border-blue-600 font-medium cursor-pointer shadow-sm">
+                    ?? รีเซ็ตค่าเริ่มต้น
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow w-full">
+        
+        <!-- Left Panel: Quests & Function Controls (5 Cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-5">
+            
+            <!-- 5E Inquiry Missions Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <h2 class="text-base font-bold text-blue-950 mb-3 flex items-center gap-2">
+                    ?? ภารกิจสืบเสาะความรู้ (5E Inquiry Quests)
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <button onclick="setQuest(1)" class="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-900 rounded-xl border border-sky-200 text-left transition cursor-pointer flex flex-col justify-between">
+                        <strong class="block text-sky-950 font-bold mb-1">ภารกิจที่ 1: สำรวจค่า a</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกตความกว้าง และพาราโบลาคว่ำ/หงาย</span>
+                    </button>
+                    <button onclick="setQuest(2)" class="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-900 rounded-xl border border-blue-200 text-left transition cursor-pointer flex flex-col justify-between">
+                        <strong class="block text-blue-950 font-bold mb-1">ภารกิจที่ 2: สำรวจค่า c</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกตการเลื่อนขนานตามแกน Y และจุดตัด</span>
+                    </button>
+                    <button onclick="setQuest(3)" class="p-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 rounded-xl border border-indigo-200 text-left transition cursor-pointer flex flex-col justify-between">
+                        <strong class="block text-indigo-950 font-bold mb-1">ภารกิจที่ 3: แกนสมมาตร</strong>
+                        <span class="text-slate-600 text-[11px]">สำรวจผลของค่า b ต่อจุดยอด h = -b/2a</span>
+                    </button>
+                    <button onclick="setQuest(4)" class="p-2.5 bg-purple-50 hover:bg-purple-100 text-purple-900 rounded-xl border border-purple-200 text-left transition cursor-pointer flex flex-col justify-between">
+                        <strong class="block text-purple-950 font-bold mb-1">ภารกิจที่ 4: คำตอบสมการ</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกต b? - 4ac กับจุดตัดแกน X</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Function Management Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <div>
+                        <h2 class="text-base font-bold text-blue-950">ตัวปรับแต่งฟังก์ชัน</h2>
+                        <p class="text-xs text-slate-500">รูปแบบทั่วไป: $y = ax^2 + bx + c$</p>
+                    </div>
+                    <button onclick="addFunction()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium cursor-pointer shadow-sm">
+                        + เพิ่มฟังก์ชัน
+                    </button>
+                </div>
+
+                <!-- Function List Container -->
+                <div id="function-list" class="flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-1">
+                    <!-- Dynamic Controls Injected Here -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Panel: Graph & Math Analysis (7 Cols) -->
+        <div class="lg:col-span-7 flex flex-col gap-5">
+            
+            <!-- Graph Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col relative">
+                <div class="w-full flex flex-wrap justify-between items-center gap-2 mb-3">
+                    <div>
+                        <h3 class="font-bold text-blue-950 text-base">กราฟแสดงความสัมพันธ์</h3>
+                        <p class="text-xs text-slate-500">แสดงจุดยอด (สีขาว), จุดตัด Y (สีตามเส้น), และจุดตัด X (สีเขียว)</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="resetZoom()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 transition cursor-pointer">
+                            ?? รีเซ็ตมุมมองแกน
+                        </button>
+                        <button onclick="exportChart()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs px-2.5 py-1.5 rounded-lg border border-blue-200 transition cursor-pointer font-medium">
+                            ?? บันทึกรูปภาพ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="w-full h-[400px] relative bg-slate-50/50 rounded-xl p-2 border border-slate-100">
+                    <canvas id="quadraticChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Analysis & Summary Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <h3 class="font-bold text-blue-950 mb-3 text-base flex items-center gap-2">
+                    ?? สรุปคุณสมบัติทางคณิตศาสตร์ (Mathematical Properties)
+                </h3>
+                <div id="analysis-results" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <!-- Dynamic Analysis Cards Injected Here -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-5 bg-white border-t border-slate-200 text-center text-xs text-slate-500">
+        <p>? 2026 Quadratic Function Inquiry Lab Pro | พัฒนาโดย <strong>นายเอกชัย สะอาดแก้ว</strong> โรงเรียนวัดไร่ขิงวิทยา</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let functionsData = [
+            { id: 1, a: 1, b: 0, c: 0, color: '#1e3a8a', visible: true },
+            { id: 2, a: -1, b: 2, c: 3, color: '#0284c7', visible: true }
+        ];
+
+        let chartInstance = null;
+        const presetColors = ['#1e3a8a', '#0284c7', '#0d9488', '#d97706', '#7c3aed', '#db2777'];
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl shadow-md text-xs font-medium text-white transition-all transform duration-300 ${
+                type === 'warning' ? 'bg-amber-600' : 'bg-slate-800'
+            }`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function initApp() {
+            renderFunctionList();
+            initChart();
+            updateAll();
+        }
+
+        function renderFunctionList() {
+            const container = document.getElementById('function-list');
+            container.innerHTML = '';
+
+            functionsData.forEach((fn, index) => {
+                const item = document.createElement('div');
+                item.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col gap-3 shadow-sm';
+                
+                item.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
+                        <div class="flex items-center gap-2">
+                            <input type="color" value="${fn.color}" onchange="updateColor(${fn.id}, this.value)" class="w-6 h-6 rounded cursor-pointer border-0">
+                            <span class="font-bold text-sm text-blue-950">ฟังก์ชันที่ ${index + 1}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="toggleVisibility(${fn.id})" class="text-[11px] px-2 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer">
+                                ${fn.visible ? '??? แสดง' : '?? ซ่อน'}
+                            </button>
+                            ${functionsData.length > 1 ? `
+                                <button onclick="removeFunction(${fn.id})" class="text-[11px] px-2 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 cursor-pointer">
+                                    ลบ
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Sliders & Inputs -->
+                    <div class="flex flex-col gap-2 text-xs">
+                        <!-- Param a -->
+                        <div class="flex items-center gap-2">
+                            <span class="w-10 font-medium text-slate-600">ค่า a:</span>
+                            <input type="range" min="-5" max="5" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="flex-grow cursor-pointer">
+                            <input type="number" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
+                        </div>
+                        <!-- Param b -->
+                        <div class="flex items-center gap-2">
+                            <span class="w-10 font-medium text-slate-600">ค่า b:</span>
+                            <input type="range" min="-10" max="10" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="flex-grow cursor-pointer">
+                            <input type="number" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
+                        </div>
+                        <!-- Param c -->
+                        <div class="flex items-center gap-2">
+                            <span class="w-10 font-medium text-slate-600">ค่า c:</span>
+                            <input type="range" min="-10" max="10" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="flex-grow cursor-pointer">
+                            <input type="number" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('quadraticChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: { datasets: [] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: { type: 'linear', position: 'center', grid: { color: '#e2e8f0' }, min: -10, max: 10 },
+                        y: { type: 'linear', position: 'center', grid: { color: '#e2e8f0' }, min: -10, max: 10 }
+                    },
+                    plugins: {
+                        legend: { display: true, position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: (${context.parsed.x.toFixed(2)}, ${context.parsed.y.toFixed(2)})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateAll() {
+            if (!chartInstance) return;
+
+            let datasets = [];
+            let analysisHTML = '';
+
+            functionsData.forEach((fn, index) => {
+                if (!fn.visible) return;
+
+                let dataPoints = [];
+                for (let x = -15; x <= 15; x += 0.1) {
+                    let y = fn.a * Math.pow(x, 2) + fn.b * x + fn.c;
+                    dataPoints.push({ x: parseFloat(x.toFixed(2)), y: parseFloat(y.toFixed(2)) });
+                }
+
+                // Main Curve Dataset
+                datasets.push({
+                    label: `f${index + 1}: y = ${fn.a}x? ${fn.b >= 0 ? '+' : ''}${fn.b}x ${fn.c >= 0 ? '+' : ''}${fn.c}`,
+                    data: dataPoints,
+                    borderColor: fn.color,
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    tension: 0.1
+                });
+
+                // Math Analysis Logic
+                const isQuadratic = fn.a !== 0;
+                let h = 0, k = 0, delta = 0, roots = [];
+                let shapeText = '', vertexFormText = '';
+
+                if (isQuadratic) {
+                    h = -fn.b / (2 * fn.a);
+                    k = fn.a * Math.pow(h, 2) + fn.b * h + fn.c;
+                    delta = Math.pow(fn.b, 2) - 4 * fn.a * fn.c;
+                    
+                    shapeText = fn.a > 0 ? 'พาราโบลาหงาย (ให้จุดต่ำสุด)' : 'พาราโบลาคว่ำ (ให้จุดสูงสุด)';
+                    
+                    let hSign = h >= 0 ? `- ${h.toFixed(2)}` : `+ ${Math.abs(h).toFixed(2)}`;
+                    let kSign = k >= 0 ? `+ ${k.toFixed(2)}` : `- ${Math.abs(k).toFixed(2)}`;
+                    vertexFormText = `y = ${fn.a}(x ${hSign})? ${kSign}`;
+
+                    // Vertex Marker
+                    datasets.push({
+                        label: `จุดยอด f${index + 1}`,
+                        data: [{ x: h, y: k }],
+                        backgroundColor: '#ffffff',
+                        borderColor: fn.color,
+                        borderWidth: 3,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    });
+
+                    // Real Roots Calculation
+                    if (delta > 0) {
+                        let r1 = (-fn.b + Math.sqrt(delta)) / (2 * fn.a);
+                        let r2 = (-fn.b - Math.sqrt(delta)) / (2 * fn.a);
+                        roots = [r1, r2];
+                    } else if (delta === 0) {
+                        roots = [h];
+                    }
+
+                    // X-intercept Markers
+                    roots.forEach(r => {
+                        datasets.push({
+                            label: `จุดตัด X f${index + 1}`,
+                            data: [{ x: r, y: 0 }],
+                            backgroundColor: '#10b981',
+                            borderColor: '#047857',
+                            borderWidth: 2,
+                            pointRadius: 5
+                        });
+                    });
+
+                } else {
+                    shapeText = 'ฟังก์ชันเชิงเส้น (ไม่ใช่พาราโบลา)';
+                    vertexFormText = 'ไม่มี (เนื่องจากเป็นเส้นตรง)';
+                }
+
+                // Y-intercept Marker
+                datasets.push({
+                    label: `จุดตัด Y f${index + 1}`,
+                    data: [{ x: 0, y: fn.c }],
+                    backgroundColor: fn.color,
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 5
+                });
+
+                // Render Analysis HTML Card
+                analysisHTML += `
+                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-col gap-1.5 shadow-sm">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                            <span class="font-bold text-blue-950 text-xs">ฟังก์ชันที่ ${index + 1}</span>
+                            <span class="w-3 h-3 rounded-full" style="background-color: ${fn.color}"></span>
+                        </div>
+                        <div class="space-y-1 text-[11px] text-slate-700">
+                            <p><strong>ลักษณะกราฟ:</strong> ${shapeText}</p>
+                            <p><strong>รูปมาตรฐาน (Vertex Form):</strong> <span class="font-mono text-blue-800 font-semibold">${vertexFormText}</span></p>
+                            <p><strong>จุดยอด (Vertex):</strong> ${isQuadratic ? `(${h.toFixed(2)}, ${k.toFixed(2)})` : 'ไม่มี'}</p>
+                            <p><strong>แกนสมมาตร:</strong> ${isQuadratic ? `x = ${h.toFixed(2)}` : 'ไม่มี'}</p>
+                            <p><strong>จุดตัดแกน Y:</strong> (0, ${fn.c})</p>
+                            <p><strong>ค่าดิสคริมิแนนท์ (? = b? - 4ac):</strong> ${isQuadratic ? delta.toFixed(2) : 'N/A'}</p>
+                            <p><strong>จุดตัดแกน X (คำตอบ):</strong> ${
+                                !isQuadratic ? (fn.b !== 0 ? `(${(-fn.c/fn.b).toFixed(2)}, 0)` : 'ไม่มี') :
+                                delta > 0 ? `2 จุด คือ (${roots[0].toFixed(2)}, 0) และ (${roots[1].toFixed(2)}, 0)` :
+                                delta === 0 ? `1 จุด คือ (${roots[0].toFixed(2)}, 0)` : 'ตัดแกน X (ไม่มีคำตอบในจำนวนจริง)'
+                            }</p>
+                            <p><strong>เรนจ์ (Range):</strong> ${
+                                !isQuadratic ? 'R (จำนวนจริงทั้งหมด)' :
+                                fn.a > 0 ? `[${k.toFixed(2)}, ?)` : `(-?, ${k.toFixed(2)}]`
+                            }</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            chartInstance.data.datasets = datasets;
+            chartInstance.update();
+
+            document.getElementById('analysis-results').innerHTML = analysisHTML || '<div class="p-4 text-slate-400 text-center col-span-2">ไม่มีฟังก์ชันที่แสดงผลในขณะนี้</div>';
+        }
+
+        function updateParam(id, param, value) {
+            let fn = functionsData.find(f => f.id === id);
+            if (fn) {
+                fn[param] = parseFloat(value) || 0;
+                renderFunctionList();
+                updateAll();
+            }
+        }
+
+        function updateColor(id, color) {
+            let fn = functionsData.find(f => f.id === id);
+            if (fn) {
+                fn.color = color;
+                updateAll();
+            }
+        }
+
+        function toggleVisibility(id) {
+            let fn = functionsData.find(f => f.id === id);
+            if (fn) {
+                fn.visible = !fn.visible;
+                renderFunctionList();
+                updateAll();
+            }
+        }
+
+        function addFunction() {
+            if (functionsData.length >= 4) {
+                showToast('สามารถเพิ่มได้สูงสุด 4 ฟังก์ชันพร้อมกันเพื่อการเปรียบเทียบที่ชัดเจน', 'warning');
+                return;
+            }
+            let newId = functionsData.length > 0 ? Math.max(...functionsData.map(f => f.id)) + 1 : 1;
+            let color = presetColors[functionsData.length % presetColors.length];
+            functionsData.push({ id: newId, a: 1, b: 0, c: -2, color: color, visible: true });
+            renderFunctionList();
+            updateAll();
+            showToast('เพิ่มฟังก์ชันใหม่เรียบร้อย');
+        }
+
+        function removeFunction(id) {
+            functionsData = functionsData.filter(f => f.id !== id);
+            renderFunctionList();
+            updateAll();
+            showToast('ลบฟังก์ชันเรียบร้อย');
+        }
+
+        function resetAll() {
+            functionsData = [
+                { id: 1, a: 1, b: 0, c: 0, color: '#1e3a8a', visible: true },
+                { id: 2, a: -1, b: 2, c: 3, color: '#0284c7', visible: true }
+            ];
+            resetZoom();
+            renderFunctionList();
+            updateAll();
+            showToast('รีเซ็ตค่าทั้งหมดเรียบร้อย');
+        }
+
+        function resetZoom() {
+            if (!chartInstance) return;
+            chartInstance.options.scales.x.min = -10;
+            chartInstance.options.scales.x.max = 10;
+            chartInstance.options.scales.y.min = -10;
+            chartInstance.options.scales.y.max = 10;
+            chartInstance.update();
+        }
+
+        function setQuest(questNo) {
+            resetZoom();
+            if (questNo === 1) {
+                functionsData = [
+                    { id: 1, a: 1, b: 0, c: 0, color: '#1e3a8a', visible: true },
+                    { id: 2, a: 3, b: 0, c: 0, color: '#0284c7', visible: true },
+                    { id: 3, a: -1.5, b: 0, c: 0, color: '#0d9488', visible: true }
+                ];
+                showToast('ภารกิจที่ 1: สังเกตค่า |a| ยิ่งมากกราฟยิ่งแคบ, a เป็นบวกหงาย a เป็นลบคว่ำ');
+            } else if (questNo === 2) {
+                functionsData = [
+                    { id: 1, a: 1, b: 0, c: 0, color: '#1e3a8a', visible: true },
+                    { id: 2, a: 1, b: 0, c: 4, color: '#0284c7', visible: true },
+                    { id: 3, a: 1, b: 0, c: -5, color: '#7c3aed', visible: true }
+                ];
+                showToast('ภารกิจที่ 2: สังเกตค่า c เลื่อนกราฟขึ้น-ลงตามแนวแกน Y');
+            } else if (questNo === 3) {
+                functionsData = [
+                    { id: 1, a: 1, b: -4, c: 2, color: '#1e3a8a', visible: true },
+                    { id: 2, a: 1, b: 4, c: 2, color: '#0284c7', visible: true }
+                ];
+                showToast('ภารกิจที่ 3: สังเกตการเปลี่ยนค่า b ทำให้แกนสมมาตร (x = -b/2a) เลื่อนซ้าย-ขวา');
+            } else if (questNo === 4) {
+                functionsData = [
+                    { id: 1, a: 1, b: -2, c: -3, color: '#1e3a8a', visible: true }, // ? > 0 (2 roots)
+                    { id: 2, a: 1, b: -2, c: 1, color: '#0284c7', visible: true },  // ? = 0 (1 root)
+                    { id: 3, a: 1, b: -2, c: 4, color: '#d97706', visible: true }   // ? < 0 (0 roots)
+                ];
+                showToast('ภารกิจที่ 4: สังเกตจุดตัดแกน X (สีเขียว) เปรียบเทียบกับค่า ? = b? - 4ac');
+            }
+            renderFunctionList();
+            updateAll();
+        }
+
+        function exportChart() {
+            if (!chartInstance) return;
+            let link = document.createElement('a');
+            link.download = 'quadratic-graph-analysis.png';
+            link.href = chartInstance.toBase64Image();
+            link.click();
+            showToast('ดาวน์โหลดรูปภาพกราฟเรียบร้อย');
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
