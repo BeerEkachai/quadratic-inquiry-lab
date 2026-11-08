@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quadratic Function Inquiry Lab Pro - �ç���¹�Ѵ���ԧ�Է��</title>
+    <title>Quadratic Function Inquiry Lab Pro - โรงเรียนวัดไร่ขิงวิทยา</title>
     <!-- Tailwind CSS v4 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js -->
@@ -26,13 +26,13 @@
             <div>
                 <h1 class="text-2xl font-bold flex items-center gap-2">
                     <span class="bg-blue-700 text-blue-100 text-xs px-2.5 py-1 rounded-full font-semibold border border-blue-500">5E Pro Lab</span> 
-                    ��ͧ��Ժѵԡ���׺���Ф������ѧ��ѹ���ѧ�ͧ
+                    ห้องปฏิบัติการสืบเสาะความรู้ฟังก์ชันกำลังสอง
                 </h1>
-                <p class="text-xs text-blue-200 mt-1">�Ѳ���� ����͡��� ���Ҵ��� � �ç���¹�Ѵ���ԧ�Է��</p>
+                <p class="text-xs text-blue-200 mt-1">พัฒนาโดย นายเอกชัย สะอาดแก้ว — โรงเรียนวัดไร่ขิงวิทยา</p>
             </div>
             <div class="flex items-center gap-2">
                 <button onclick="resetAll()" class="bg-blue-800 hover:bg-blue-700 text-xs px-3 py-2 rounded-lg transition border border-blue-600 font-medium cursor-pointer shadow-sm">
-                    ?? ���絤���������
+                    🔄 รีเซ็ตค่าเริ่มต้น
                 </button>
             </div>
         </div>
@@ -47,24 +47,24 @@
             <!-- 5E Inquiry Missions Card -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <h2 class="text-base font-bold text-blue-950 mb-3 flex items-center gap-2">
-                    ?? ��áԨ�׺���Ф������ (5E Inquiry Quests)
+                    🎯 ภารกิจสืบเสาะความรู้ (5E Inquiry Quests)
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     <button onclick="setQuest(1)" class="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-900 rounded-xl border border-sky-200 text-left transition cursor-pointer flex flex-col justify-between">
-                        <strong class="block text-sky-950 font-bold mb-1">��áԨ��� 1: ���Ǩ��� a</strong>
-                        <span class="text-slate-600 text-[11px]">�ѧࡵ�������ҧ ��о�����Ҥ���/˧��</span>
+                        <strong class="block text-sky-950 font-bold mb-1">ภารกิจที่ 1: สำรวจค่า a</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกตความกว้าง และพาราโบลาคว่ำ/หงาย</span>
                     </button>
                     <button onclick="setQuest(2)" class="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-900 rounded-xl border border-blue-200 text-left transition cursor-pointer flex flex-col justify-between">
-                        <strong class="block text-blue-950 font-bold mb-1">��áԨ��� 2: ���Ǩ��� c</strong>
-                        <span class="text-slate-600 text-[11px]">�ѧࡵ�������͹��ҹ���᡹ Y ��Шش�Ѵ</span>
+                        <strong class="block text-blue-950 font-bold mb-1">ภารกิจที่ 2: สำรวจค่า c</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกตการเลื่อนขนานตามแกน Y และจุดตัด</span>
                     </button>
                     <button onclick="setQuest(3)" class="p-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 rounded-xl border border-indigo-200 text-left transition cursor-pointer flex flex-col justify-between">
-                        <strong class="block text-indigo-950 font-bold mb-1">��áԨ��� 3: ᡹���ҵ�</strong>
-                        <span class="text-slate-600 text-[11px]">���Ǩ�Ţͧ��� b ��ͨش�ʹ h = -b/2a</span>
+                        <strong class="block text-indigo-950 font-bold mb-1">ภารกิจที่ 3: แกนสมมาตร</strong>
+                        <span class="text-slate-600 text-[11px]">สำรวจผลของค่า b ต่อจุดยอด h = -b/2a</span>
                     </button>
                     <button onclick="setQuest(4)" class="p-2.5 bg-purple-50 hover:bg-purple-100 text-purple-900 rounded-xl border border-purple-200 text-left transition cursor-pointer flex flex-col justify-between">
-                        <strong class="block text-purple-950 font-bold mb-1">��áԨ��� 4: �ӵͺ�����</strong>
-                        <span class="text-slate-600 text-[11px]">�ѧࡵ b? - 4ac �Ѻ�ش�Ѵ᡹ X</span>
+                        <strong class="block text-purple-950 font-bold mb-1">ภารกิจที่ 4: คำตอบสมการ</strong>
+                        <span class="text-slate-600 text-[11px]">สังเกต b² - 4ac กับจุดตัดแกน X</span>
                     </button>
                 </div>
             </div>
@@ -73,11 +73,11 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col gap-4">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                     <div>
-                        <h2 class="text-base font-bold text-blue-950">��ǻ�Ѻ�觿ѧ��ѹ</h2>
-                        <p class="text-xs text-slate-500">�ٻẺ�����: $y = ax^2 + bx + c$</p>
+                        <h2 class="text-base font-bold text-blue-950">ตัวปรับแต่งฟังก์ชัน</h2>
+                        <p class="text-xs text-slate-500">รูปแบบทั่วไป: y = ax² + bx + c</p>
                     </div>
                     <button onclick="addFunction()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium cursor-pointer shadow-sm">
-                        + �����ѧ��ѹ
+                        + เพิ่มฟังก์ชัน
                     </button>
                 </div>
 
@@ -96,15 +96,15 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col relative">
                 <div class="w-full flex flex-wrap justify-between items-center gap-2 mb-3">
                     <div>
-                        <h3 class="font-bold text-blue-950 text-base">��ҿ�ʴ���������ѹ��</h3>
-                        <p class="text-xs text-slate-500">�ʴ��ش�ʹ (�բ��), �ش�Ѵ Y (�յ�����), ��Шش�Ѵ X (������)</p>
+                        <h3 class="font-bold text-blue-950 text-base">กราฟแสดงความสัมพันธ์</h3>
+                        <p class="text-xs text-slate-500">แสดงจุดยอด (สีขาว), จุดตัด Y (สีตามเส้น), และจุดตัด X (สีเขียว)</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="resetZoom()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 transition cursor-pointer">
-                            ?? ��������ͧ᡹
+                            🔍 รีเซ็ตมุมมองแกน
                         </button>
                         <button onclick="exportChart()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs px-2.5 py-1.5 rounded-lg border border-blue-200 transition cursor-pointer font-medium">
-                            ?? �ѹ�֡�ٻ�Ҿ
+                            📥 บันทึกรูปภาพ
                         </button>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
             <!-- Analysis & Summary Card -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <h3 class="font-bold text-blue-950 mb-3 text-base flex items-center gap-2">
-                    ?? ��ػ�س���ѵԷҧ��Ե��ʵ�� (Mathematical Properties)
+                    📊 สรุปคุณสมบัติทางคณิตศาสตร์ (Mathematical Properties)
                 </h3>
                 <div id="analysis-results" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                     <!-- Dynamic Analysis Cards Injected Here -->
@@ -130,7 +130,7 @@
 
     <!-- Footer -->
     <footer class="mt-auto py-5 bg-white border-t border-slate-200 text-center text-xs text-slate-500">
-        <p>? 2026 Quadratic Function Inquiry Lab Pro | �Ѳ���� <strong>����͡��� ���Ҵ���</strong> �ç���¹�Ѵ���ԧ�Է��</p>
+        <p>© 2026 Quadratic Function Inquiry Lab Pro | พัฒนาโดย <strong>นายเอกชัย สะอาดแก้ว</strong> โรงเรียนวัดไร่ขิงวิทยา</p>
     </footer>
 
     <!-- JavaScript Logic -->
@@ -175,15 +175,15 @@
                     <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
                         <div class="flex items-center gap-2">
                             <input type="color" value="${fn.color}" onchange="updateColor(${fn.id}, this.value)" class="w-6 h-6 rounded cursor-pointer border-0">
-                            <span class="font-bold text-sm text-blue-950">�ѧ��ѹ��� ${index + 1}</span>
+                            <span class="font-bold text-sm text-blue-950">ฟังก์ชันที่ ${index + 1}</span>
                         </div>
                         <div class="flex items-center gap-1.5">
                             <button onclick="toggleVisibility(${fn.id})" class="text-[11px] px-2 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer">
-                                ${fn.visible ? '??? �ʴ�' : '?? ��͹'}
+                                ${fn.visible ? '👁️ แสดง' : '🚫 ซ่อน'}
                             </button>
                             ${functionsData.length > 1 ? `
                                 <button onclick="removeFunction(${fn.id})" class="text-[11px] px-2 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 cursor-pointer">
-                                    ź
+                                    ลบ
                                 </button>
                             ` : ''}
                         </div>
@@ -193,19 +193,19 @@
                     <div class="flex flex-col gap-2 text-xs">
                         <!-- Param a -->
                         <div class="flex items-center gap-2">
-                            <span class="w-10 font-medium text-slate-600">��� a:</span>
+                            <span class="w-10 font-medium text-slate-600">ค่า a:</span>
                             <input type="range" min="-5" max="5" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="flex-grow cursor-pointer">
                             <input type="number" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
                         </div>
                         <!-- Param b -->
                         <div class="flex items-center gap-2">
-                            <span class="w-10 font-medium text-slate-600">��� b:</span>
+                            <span class="w-10 font-medium text-slate-600">ค่า b:</span>
                             <input type="range" min="-10" max="10" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="flex-grow cursor-pointer">
                             <input type="number" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
                         </div>
                         <!-- Param c -->
                         <div class="flex items-center gap-2">
-                            <span class="w-10 font-medium text-slate-600">��� c:</span>
+                            <span class="w-10 font-medium text-slate-600">ค่า c:</span>
                             <input type="range" min="-10" max="10" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="flex-grow cursor-pointer">
                             <input type="number" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center font-bold text-slate-800">
                         </div>
@@ -259,7 +259,7 @@
 
                 // Main Curve Dataset
                 datasets.push({
-                    label: `f${index + 1}: y = ${fn.a}x? ${fn.b >= 0 ? '+' : ''}${fn.b}x ${fn.c >= 0 ? '+' : ''}${fn.c}`,
+                    label: `f${index + 1}: y = ${fn.a}x² ${fn.b >= 0 ? '+' : ''}${fn.b}x ${fn.c >= 0 ? '+' : ''}${fn.c}`,
                     data: dataPoints,
                     borderColor: fn.color,
                     borderWidth: 2.5,
@@ -277,15 +277,15 @@
                     k = fn.a * Math.pow(h, 2) + fn.b * h + fn.c;
                     delta = Math.pow(fn.b, 2) - 4 * fn.a * fn.c;
                     
-                    shapeText = fn.a > 0 ? '�������˧�� (���ش����ش)' : '������Ҥ��� (���ش�٧�ش)';
+                    shapeText = fn.a > 0 ? 'พาราโบลาหงาย (ให้จุดต่ำสุด)' : 'พาราโบลาคว่ำ (ให้จุดสูงสุด)';
                     
                     let hSign = h >= 0 ? `- ${h.toFixed(2)}` : `+ ${Math.abs(h).toFixed(2)}`;
                     let kSign = k >= 0 ? `+ ${k.toFixed(2)}` : `- ${Math.abs(k).toFixed(2)}`;
-                    vertexFormText = `y = ${fn.a}(x ${hSign})? ${kSign}`;
+                    vertexFormText = `y = ${fn.a}(x ${hSign})² ${kSign}`;
 
                     // Vertex Marker
                     datasets.push({
-                        label: `�ش�ʹ f${index + 1}`,
+                        label: `จุดยอด f${index + 1}`,
                         data: [{ x: h, y: k }],
                         backgroundColor: '#ffffff',
                         borderColor: fn.color,
@@ -306,7 +306,7 @@
                     // X-intercept Markers
                     roots.forEach(r => {
                         datasets.push({
-                            label: `�ش�Ѵ X f${index + 1}`,
+                            label: `จุดตัด X f${index + 1}`,
                             data: [{ x: r, y: 0 }],
                             backgroundColor: '#10b981',
                             borderColor: '#047857',
@@ -316,13 +316,13 @@
                     });
 
                 } else {
-                    shapeText = '�ѧ��ѹ�ԧ��� (�����������)';
-                    vertexFormText = '����� (���ͧ�ҡ����鹵ç)';
+                    shapeText = 'ฟังก์ชันเชิงเส้น (ไม่ใช่พาราโบลา)';
+                    vertexFormText = 'ไม่มี (เนื่องจากเป็นเส้นตรง)';
                 }
 
                 // Y-intercept Marker
                 datasets.push({
-                    label: `�ش�Ѵ Y f${index + 1}`,
+                    label: `จุดตัด Y f${index + 1}`,
                     data: [{ x: 0, y: fn.c }],
                     backgroundColor: fn.color,
                     borderColor: '#ffffff',
@@ -334,24 +334,24 @@
                 analysisHTML += `
                     <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-col gap-1.5 shadow-sm">
                         <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
-                            <span class="font-bold text-blue-950 text-xs">�ѧ��ѹ��� ${index + 1}</span>
+                            <span class="font-bold text-blue-950 text-xs">ฟังก์ชันที่ ${index + 1}</span>
                             <span class="w-3 h-3 rounded-full" style="background-color: ${fn.color}"></span>
                         </div>
                         <div class="space-y-1 text-[11px] text-slate-700">
-                            <p><strong>�ѡɳС�ҿ:</strong> ${shapeText}</p>
-                            <p><strong>�ٻ�ҵðҹ (Vertex Form):</strong> <span class="font-mono text-blue-800 font-semibold">${vertexFormText}</span></p>
-                            <p><strong>�ش�ʹ (Vertex):</strong> ${isQuadratic ? `(${h.toFixed(2)}, ${k.toFixed(2)})` : '�����'}</p>
-                            <p><strong>᡹���ҵ�:</strong> ${isQuadratic ? `x = ${h.toFixed(2)}` : '�����'}</p>
-                            <p><strong>�ش�Ѵ᡹ Y:</strong> (0, ${fn.c})</p>
-                            <p><strong>��Ҵ�ʤ����ṹ�� (? = b? - 4ac):</strong> ${isQuadratic ? delta.toFixed(2) : 'N/A'}</p>
-                            <p><strong>�ش�Ѵ᡹ X (�ӵͺ):</strong> ${
-                                !isQuadratic ? (fn.b !== 0 ? `(${(-fn.c/fn.b).toFixed(2)}, 0)` : '�����') :
-                                delta > 0 ? `2 �ش ��� (${roots[0].toFixed(2)}, 0) ��� (${roots[1].toFixed(2)}, 0)` :
-                                delta === 0 ? `1 �ش ��� (${roots[0].toFixed(2)}, 0)` : '�Ѵ᡹ X (����դӵͺ㹨ӹǹ��ԧ)'
+                            <p><strong>ลักษณะกราฟ:</strong> ${shapeText}</p>
+                            <p><strong>รูปมาตรฐาน (Vertex Form):</strong> <span class="font-mono text-blue-800 font-semibold">${vertexFormText}</span></p>
+                            <p><strong>จุดยอด (Vertex):</strong> ${isQuadratic ? `(${h.toFixed(2)}, ${k.toFixed(2)})` : 'ไม่มี'}</p>
+                            <p><strong>แกนสมมาตร:</strong> ${isQuadratic ? `x = ${h.toFixed(2)}` : 'ไม่มี'}</p>
+                            <p><strong>จุดตัดแกน Y:</strong> (0, ${fn.c})</p>
+                            <p><strong>ค่าดิสคริมิแนนท์ (Δ = b² - 4ac):</strong> ${isQuadratic ? delta.toFixed(2) : 'N/A'}</p>
+                            <p><strong>จุดตัดแกน X (คำตอบ):</strong> ${
+                                !isQuadratic ? (fn.b !== 0 ? `(${(-fn.c/fn.b).toFixed(2)}, 0)` : 'ไม่มี') :
+                                delta > 0 ? `2 จุด คือ (${roots[0].toFixed(2)}, 0) และ (${roots[1].toFixed(2)}, 0)` :
+                                delta === 0 ? `1 จุด คือ (${roots[0].toFixed(2)}, 0)` : 'ไม่ตัดแกน X (ไม่มีคำตอบในจำนวนจริง)'
                             }</p>
-                            <p><strong>�ù�� (Range):</strong> ${
-                                !isQuadratic ? 'R (�ӹǹ��ԧ������)' :
-                                fn.a > 0 ? `[${k.toFixed(2)}, ?)` : `(-?, ${k.toFixed(2)}]`
+                            <p><strong>เรนจ์ (Range):</strong> ${
+                                !isQuadratic ? 'R (จำนวนจริงทั้งหมด)' :
+                                fn.a > 0 ? `[${k.toFixed(2)}, ∞)` : `(-∞, ${k.toFixed(2)}]`
                             }</p>
                         </div>
                     </div>
@@ -361,7 +361,7 @@
             chartInstance.data.datasets = datasets;
             chartInstance.update();
 
-            document.getElementById('analysis-results').innerHTML = analysisHTML || '<div class="p-4 text-slate-400 text-center col-span-2">����տѧ��ѹ����ʴ���㹢�й��</div>';
+            document.getElementById('analysis-results').innerHTML = analysisHTML || '<div class="p-4 text-slate-400 text-center col-span-2">ไม่มีฟังก์ชันที่แสดงผลในขณะนี้</div>';
         }
 
         function updateParam(id, param, value) {
@@ -392,7 +392,7 @@
 
         function addFunction() {
             if (functionsData.length >= 4) {
-                showToast('����ö�������٧�ش 4 �ѧ��ѹ������ѹ���͡�����º��º���Ѵਹ', 'warning');
+                showToast('สามารถเพิ่มได้สูงสุด 4 ฟังก์ชันพร้อมกันเพื่อการเปรียบเทียบที่ชัดเจน', 'warning');
                 return;
             }
             let newId = functionsData.length > 0 ? Math.max(...functionsData.map(f => f.id)) + 1 : 1;
@@ -400,14 +400,14 @@
             functionsData.push({ id: newId, a: 1, b: 0, c: -2, color: color, visible: true });
             renderFunctionList();
             updateAll();
-            showToast('�����ѧ��ѹ�������º����');
+            showToast('เพิ่มฟังก์ชันใหม่เรียบร้อย');
         }
 
         function removeFunction(id) {
             functionsData = functionsData.filter(f => f.id !== id);
             renderFunctionList();
             updateAll();
-            showToast('ź�ѧ��ѹ���º����');
+            showToast('ลบฟังก์ชันเรียบร้อย');
         }
 
         function resetAll() {
@@ -418,7 +418,7 @@
             resetZoom();
             renderFunctionList();
             updateAll();
-            showToast('���絤�ҷ��������º����');
+            showToast('รีเซ็ตค่าทั้งหมดเรียบร้อย');
         }
 
         function resetZoom() {
@@ -438,27 +438,27 @@
                     { id: 2, a: 3, b: 0, c: 0, color: '#0284c7', visible: true },
                     { id: 3, a: -1.5, b: 0, c: 0, color: '#0d9488', visible: true }
                 ];
-                showToast('��áԨ��� 1: �ѧࡵ��� |a| ����ҡ��ҿ���᤺, a �繺ǡ˧�� a ��ź����');
+                showToast('ภารกิจที่ 1: สังเกตค่า |a| ยิ่งมากกราฟยิ่งแคบ, a เป็นบวกหงาย a เป็นลบคว่ำ');
             } else if (questNo === 2) {
                 functionsData = [
                     { id: 1, a: 1, b: 0, c: 0, color: '#1e3a8a', visible: true },
                     { id: 2, a: 1, b: 0, c: 4, color: '#0284c7', visible: true },
                     { id: 3, a: 1, b: 0, c: -5, color: '#7c3aed', visible: true }
                 ];
-                showToast('��áԨ��� 2: �ѧࡵ��� c ����͹��ҿ���-ŧ�����᡹ Y');
+                showToast('ภารกิจที่ 2: สังเกตค่า c เลื่อนกราฟขึ้น-ลงตามแนวแกน Y');
             } else if (questNo === 3) {
                 functionsData = [
                     { id: 1, a: 1, b: -4, c: 2, color: '#1e3a8a', visible: true },
                     { id: 2, a: 1, b: 4, c: 2, color: '#0284c7', visible: true }
                 ];
-                showToast('��áԨ��� 3: �ѧࡵ�������¹��� b �����᡹���ҵ� (x = -b/2a) ����͹����-���');
+                showToast('ภารกิจที่ 3: สังเกตการเปลี่ยนค่า b ทำให้แกนสมมาตร (x = -b/2a) เลื่อนซ้าย-ขวา');
             } else if (questNo === 4) {
                 functionsData = [
-                    { id: 1, a: 1, b: -2, c: -3, color: '#1e3a8a', visible: true }, // ? > 0 (2 roots)
-                    { id: 2, a: 1, b: -2, c: 1, color: '#0284c7', visible: true },  // ? = 0 (1 root)
-                    { id: 3, a: 1, b: -2, c: 4, color: '#d97706', visible: true }   // ? < 0 (0 roots)
+                    { id: 1, a: 1, b: -2, c: -3, color: '#1e3a8a', visible: true }, // Δ > 0 (2 roots)
+                    { id: 2, a: 1, b: -2, c: 1, color: '#0284c7', visible: true },  // Δ = 0 (1 root)
+                    { id: 3, a: 1, b: -2, c: 4, color: '#d97706', visible: true }   // Δ < 0 (0 roots)
                 ];
-                showToast('��áԨ��� 4: �ѧࡵ�ش�Ѵ᡹ X (������) ���º��º�Ѻ��� ? = b? - 4ac');
+                showToast('ภารกิจที่ 4: สังเกตจุดตัดแกน X (สีเขียว) เปรียบเทียบกับค่า Δ = b² - 4ac');
             }
             renderFunctionList();
             updateAll();
@@ -470,7 +470,7 @@
             link.download = 'quadratic-graph-analysis.png';
             link.href = chartInstance.toBase64Image();
             link.click();
-            showToast('��ǹ���Ŵ�ٻ�Ҿ��ҿ���º����');
+            showToast('ดาวน์โหลดรูปภาพกราฟเรียบร้อย');
         }
 
         window.onload = initApp;
