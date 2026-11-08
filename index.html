@@ -2,185 +2,185 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quadratic Function Inquiry Lab Pro - โรงเรียนวัดไร่ขิงวิทยา</title>
     <!-- Tailwind CSS v4 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Hammer.js & Chart.js Zoom Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
     <!-- Google Fonts (Sarabun & Prompt) -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Prompt', 'Sarabun', sans-serif; }
+        body { font-family: 'Prompt', 'Sarabun', sans-serif; touch-action: manipulation; }
         
         input[type=range] {
             -webkit-appearance: none;
             background: #e2e8f0;
             border-radius: 8px;
-            height: 6px;
+            height: 8px;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 18px;
-            width: 18px;
+            height: 22px;
+            width: 22px;
             border-radius: 50%;
             background: #0284c7;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
-            transition: all 0.2s ease-in-out;
-        }
-        input[type=range]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            background: #2563eb;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
         
         .glass-nav {
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .blue-glow {
-            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.15), 0 8px 10px -6px rgba(14, 165, 233, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.15);
+        }
+
+        /* Prevent Canvas Touch Scroll Interference */
+        #quadraticChart {
+            touch-action: none;
+            cursor: grab;
+        }
+        #quadraticChart:active {
+            cursor: grabbing;
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-100 via-sky-50 to-blue-100 text-slate-800 min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
 
     <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-20 right-5 z-50 flex flex-col gap-2"></div>
+    <div id="toast-container" class="fixed top-20 right-4 left-4 sm:left-auto sm:right-5 z-50 flex flex-col gap-2"></div>
 
     <!-- Header -->
-    <header class="glass-nav sticky top-0 z-40 text-white py-4 px-6 shadow-xl">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-cyan-500/30">
+    <header class="glass-nav sticky top-0 z-40 text-white py-3 px-4 sm:px-6 shadow-xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-base shadow-md">
                     f(x)
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold flex items-center gap-2 tracking-tight">
-                        Quadratic Function <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Inquiry Lab</span>
-                        <span class="bg-blue-500/20 text-sky-300 border border-sky-400/30 text-[10px] px-2 py-0.5 rounded-full font-semibold">5E PRO</span>
+                    <h1 class="text-base sm:text-lg font-bold flex items-center gap-1.5 tracking-tight">
+                        Quadratic Lab <span class="bg-blue-500/20 text-sky-300 border border-sky-400/30 text-[9px] px-2 py-0.5 rounded-full font-semibold">5E Mobile</span>
                     </h1>
-                    <p class="text-xs text-sky-200/80 mt-0.5">ห้องปฏิบัติการสืบเสาะฟังก์ชันกำลังสอง | โดย นายเอกชัย สะอาดแก้ว (โรงเรียนวัดไร่ขิงวิทยา)</p>
+                    <p class="text-[10px] text-sky-200/80">อ.เอกชัย สะอาดแก้ว — วัดไร่ขิงวิทยา</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="resetAll()" class="bg-slate-800/80 hover:bg-slate-700 text-sky-200 hover:text-white text-xs px-4 py-2 rounded-xl transition duration-200 border border-slate-700 font-medium cursor-pointer flex items-center gap-1.5 shadow-inner">
-                    🔄 รีเซ็ตค่าเริ่มต้น
-                </button>
-            </div>
+            <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-sky-200 text-xs px-3 py-1.5 rounded-xl border border-slate-700 font-medium cursor-pointer">
+                🔄 รีเซ็ต
+            </button>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow w-full">
         
-        <!-- Left Panel (5 Cols) -->
-        <div class="lg:col-span-5 flex flex-col gap-6">
+        <!-- Left Panel: Quests & Function Controls (5 Cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-5">
             
             <!-- 5E Inquiry Missions Card -->
-            <div class="glass-card rounded-3xl p-6 blue-glow">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="text-xl">🎯</span>
-                    <h2 class="text-base font-bold text-slate-900 tracking-wide">ภารกิจสืบเสาะความรู้ (Inquiry Quests)</h2>
+            <div class="glass-card rounded-3xl p-4 sm:p-5 blue-glow">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-lg">🎯</span>
+                    <h2 class="text-sm font-bold text-slate-900">ภารกิจสืบเสาะความรู้ (5E Quests)</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <button onclick="setQuest(1)" class="p-3 bg-gradient-to-br from-white to-sky-50/80 hover:to-sky-100/80 text-slate-800 rounded-2xl border border-sky-200/60 text-left transition duration-200 cursor-pointer shadow-sm hover:shadow-md hover:border-sky-300">
-                        <strong class="block text-blue-900 font-semibold mb-1 flex items-center justify-between">
-                            ภารกิจที่ 1 <span class="text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded-md">ค่า a</span>
-                        </strong>
-                        <span class="text-slate-500 text-[11px] leading-relaxed">สังเกตความกว้าง พาราโบลาคว่ำ/หงาย</span>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <button onclick="setQuest(1)" class="p-2.5 bg-white/80 hover:bg-sky-50 text-slate-800 rounded-2xl border border-sky-200/80 text-left transition cursor-pointer shadow-sm">
+                        <strong class="block text-blue-900 font-semibold mb-0.5">ภารกิจที่ 1</strong>
+                        <span class="text-slate-500 text-[10px]">สำรวจค่า a</span>
                     </button>
-
-                    <button onclick="setQuest(2)" class="p-3 bg-gradient-to-br from-white to-cyan-50/80 hover:to-cyan-100/80 text-slate-800 rounded-2xl border border-cyan-200/60 text-left transition duration-200 cursor-pointer shadow-sm hover:shadow-md hover:border-cyan-300">
-                        <strong class="block text-cyan-900 font-semibold mb-1 flex items-center justify-between">
-                            ภารกิจที่ 2 <span class="text-[10px] px-1.5 py-0.5 bg-cyan-100 text-cyan-700 rounded-md">ค่า c</span>
-                        </strong>
-                        <span class="text-slate-500 text-[11px] leading-relaxed">สังเกตการเลื่อนขนานตามแกน Y</span>
+                    <button onclick="setQuest(2)" class="p-2.5 bg-white/80 hover:bg-cyan-50 text-slate-800 rounded-2xl border border-cyan-200/80 text-left transition cursor-pointer shadow-sm">
+                        <strong class="block text-cyan-900 font-semibold mb-0.5">ภารกิจที่ 2</strong>
+                        <span class="text-slate-500 text-[10px]">สำรวจค่า c</span>
                     </button>
-
-                    <button onclick="setQuest(3)" class="p-3 bg-gradient-to-br from-white to-blue-50/80 hover:to-blue-100/80 text-slate-800 rounded-2xl border border-blue-200/60 text-left transition duration-200 cursor-pointer shadow-sm hover:shadow-md hover:border-blue-300">
-                        <strong class="block text-indigo-900 font-semibold mb-1 flex items-center justify-between">
-                            ภารกิจที่ 3 <span class="text-[10px] px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded-md">แกนสมมาตร</span>
-                        </strong>
-                        <span class="text-slate-500 text-[11px] leading-relaxed">ผลของค่า b ต่อจุดยอด h = -b/2a</span>
+                    <button onclick="setQuest(3)" class="p-2.5 bg-white/80 hover:bg-indigo-50 text-slate-800 rounded-2xl border border-indigo-200/80 text-left transition cursor-pointer shadow-sm">
+                        <strong class="block text-indigo-900 font-semibold mb-0.5">ภารกิจที่ 3</strong>
+                        <span class="text-slate-500 text-[10px]">แกนสมมาตร</span>
                     </button>
-
-                    <button onclick="setQuest(4)" class="p-3 bg-gradient-to-br from-white to-teal-50/80 hover:to-teal-100/80 text-slate-800 rounded-2xl border border-teal-200/60 text-left transition duration-200 cursor-pointer shadow-sm hover:shadow-md hover:border-teal-300">
-                        <strong class="block text-teal-900 font-semibold mb-1 flex items-center justify-between">
-                            ภารกิจที่ 4 <span class="text-[10px] px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded-md">ดิสคริมิแนนท์</span>
-                        </strong>
-                        <span class="text-slate-500 text-[11px] leading-relaxed">สังเกต b² - 4ac กับจุดตัดแกน X</span>
+                    <button onclick="setQuest(4)" class="p-2.5 bg-white/80 hover:bg-teal-50 text-slate-800 rounded-2xl border border-teal-200/80 text-left transition cursor-pointer shadow-sm">
+                        <strong class="block text-teal-900 font-semibold mb-0.5">ภารกิจที่ 4</strong>
+                        <span class="text-slate-500 text-[10px]">ดิสคริมิแนนท์</span>
                     </button>
                 </div>
             </div>
 
             <!-- Function Controls Card -->
-            <div class="glass-card rounded-3xl p-6 blue-glow flex flex-col gap-5">
-                <div class="flex justify-between items-center border-b border-sky-100 pb-3">
+            <div class="glass-card rounded-3xl p-4 sm:p-5 blue-glow flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-sky-100 pb-2.5">
                     <div>
-                        <h2 class="text-base font-bold text-slate-900">จัดการฟังก์ชัน</h2>
-                        <p class="text-xs text-sky-600 font-medium">รูปทั่วไป: y = ax² + bx + c</p>
+                        <h2 class="text-sm font-bold text-slate-900">จัดการฟังก์ชัน</h2>
+                        <p class="text-[11px] text-sky-600 font-medium">y = ax² + bx + c</p>
                     </div>
-                    <button onclick="addFunction()" class="bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white text-xs px-3.5 py-2 rounded-xl transition duration-200 font-medium cursor-pointer shadow-md shadow-blue-500/20 flex items-center gap-1">
-                        <span>+</span> เพิ่มฟังก์ชัน
+                    <button onclick="addFunction()" class="bg-gradient-to-r from-blue-600 to-sky-500 text-white text-xs px-3 py-1.5 rounded-xl font-medium cursor-pointer shadow-md">
+                        + เพิ่มฟังก์ชัน
                     </button>
                 </div>
 
                 <!-- Function List Container -->
-                <div id="function-list" class="flex flex-col gap-4 max-h-[480px] overflow-y-auto pr-1">
+                <div id="function-list" class="flex flex-col gap-3 max-h-[450px] overflow-y-auto pr-1">
                     <!-- Dynamic Controls Injected Here -->
                 </div>
             </div>
 
         </div>
 
-        <!-- Right Panel (7 Cols) -->
-        <div class="lg:col-span-7 flex flex-col gap-6">
+        <!-- Right Panel: Graph & Analysis (7 Cols) -->
+        <div class="lg:col-span-7 flex flex-col gap-5">
             
             <!-- Graph Card -->
-            <div class="glass-card rounded-3xl p-6 blue-glow flex flex-col relative">
-                <div class="w-full flex flex-wrap justify-between items-center gap-2 mb-3">
+            <div class="glass-card rounded-3xl p-4 sm:p-5 blue-glow flex flex-col relative">
+                <div class="w-full flex flex-wrap justify-between items-center gap-2 mb-2">
                     <div>
-                        <h3 class="font-bold text-slate-900 text-base">แสดงกราฟแสดงความสัมพันธ์</h3>
-                        <p class="text-[11px] text-sky-600">💡 <b>คำแนะนำ:</b> สามารถใช้เมาส์ลากกราฟ หรือหมุน Scroll เพื่อย่อ-ขยายกราฟได้</p>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">แสดงกราฟฟังก์ชัน</h3>
+                        <p class="text-[10px] text-sky-600">💡 ใช้นิ้วลากกราฟบนจอได้ หรือใช้ปุ่มลูกศรด้านล่างควบคุม</p>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="autoScaleGraph()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs px-3 py-1.5 rounded-xl border border-blue-200 transition cursor-pointer font-medium shadow-sm">
-                            🎯 ปรับมุมมองอัตโนมัติ
+                    <div class="flex gap-1.5">
+                        <button onclick="autoScaleGraph()" class="bg-blue-50 text-blue-700 text-[11px] px-2.5 py-1 rounded-xl border border-blue-200 font-medium">
+                            🎯 ปรับพอดี
                         </button>
-                        <button onclick="resetZoom()" class="bg-white hover:bg-slate-50 text-slate-700 text-xs px-3 py-1.5 rounded-xl border border-slate-200 transition cursor-pointer shadow-sm">
-                            🔍 รีเซ็ตขอบเขต (-10 ถึง 10)
-                        </button>
-                        <button onclick="exportChart()" class="bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs px-3 py-1.5 rounded-xl border border-sky-200 transition cursor-pointer font-medium shadow-sm">
-                            📥 บันทึกกราฟ
+                        <button onclick="resetZoom()" class="bg-white text-slate-700 text-[11px] px-2.5 py-1 rounded-xl border border-slate-200">
+                            🔍 รีเซ็ตแกน
                         </button>
                     </div>
                 </div>
                 
-                <div class="w-full h-[430px] relative bg-white/90 rounded-2xl p-3 border border-sky-100 shadow-inner">
+                <!-- Canvas Area -->
+                <div class="w-full h-[350px] sm:h-[400px] relative bg-white/95 rounded-2xl p-2 border border-sky-100 shadow-inner">
                     <canvas id="quadraticChart"></canvas>
+                </div>
+
+                <!-- Mobile Navigation Pad (ปุ่มควบคุมมุมมองบนมือถือ) -->
+                <div class="mt-3 p-2 bg-sky-50/80 rounded-2xl border border-sky-100 flex items-center justify-between gap-2 text-xs">
+                    <span class="font-bold text-slate-700 text-[11px] pl-1">ขยับกราฟ:</span>
+                    <div class="flex items-center gap-1">
+                        <button onclick="panGraph(0, 5)" class="w-8 h-8 rounded-lg bg-white border border-sky-200 font-bold text-blue-600 active:bg-blue-100 shadow-sm flex items-center justify-center">⬆️</button>
+                        <button onclick="panGraph(0, -5)" class="w-8 h-8 rounded-lg bg-white border border-sky-200 font-bold text-blue-600 active:bg-blue-100 shadow-sm flex items-center justify-center">⬇️</button>
+                        <button onclick="panGraph(-5, 0)" class="w-8 h-8 rounded-lg bg-white border border-sky-200 font-bold text-blue-600 active:bg-blue-100 shadow-sm flex items-center justify-center">⬅️</button>
+                        <button onclick="panGraph(5, 0)" class="w-8 h-8 rounded-lg bg-white border border-sky-200 font-bold text-blue-600 active:bg-blue-100 shadow-sm flex items-center justify-center">➡️</button>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="zoomGraph(0.8)" class="px-2.5 h-8 rounded-lg bg-blue-600 text-white font-bold active:bg-blue-700 shadow-sm flex items-center justify-center">➕ ซูมเข้า</button>
+                        <button onclick="zoomGraph(1.25)" class="px-2.5 h-8 rounded-lg bg-slate-700 text-white font-bold active:bg-slate-800 shadow-sm flex items-center justify-center">➖ ซูมออก</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Analysis Card -->
-            <div class="glass-card rounded-3xl p-6 blue-glow">
-                <h3 class="font-bold text-slate-900 mb-4 text-base flex items-center gap-2">
-                    <span class="p-1.5 bg-blue-100 text-blue-700 rounded-lg text-xs">📊</span> สรุปคุณสมบัติทางคณิตศาสตร์
+            <div class="glass-card rounded-3xl p-4 sm:p-5 blue-glow">
+                <h3 class="font-bold text-slate-900 mb-3 text-sm sm:text-base flex items-center gap-2">
+                    <span class="p-1 bg-blue-100 text-blue-700 rounded-lg text-xs">📊</span> สรุปคุณสมบัติทางคณิตศาสตร์
                 </h3>
-                <div id="analysis-results" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div id="analysis-results" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <!-- Dynamic Analysis Cards Injected Here -->
                 </div>
             </div>
@@ -190,8 +190,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto py-6 bg-slate-900 border-t border-slate-800 text-center text-xs text-slate-400">
-        <p>© 2026 Quadratic Function Inquiry Lab Pro | พัฒนาโดย <strong class="text-sky-300 font-semibold">นายเอกชัย สะอาดแก้ว</strong> โรงเรียนวัดไร่ขิงวิทยา</p>
+    <footer class="mt-auto py-4 bg-slate-900 border-t border-slate-800 text-center text-[11px] text-slate-400">
+        <p>© 2026 Quadratic Inquiry Lab | นายเอกชัย สะอาดแก้ว (โรงเรียนวัดไร่ขิงวิทยา)</p>
     </footer>
 
     <!-- JavaScript Logic -->
@@ -202,27 +202,27 @@
         ];
 
         let chartInstance = null;
-        const presetColors = ['#2563eb', '#0284c7', '#0d9488', '#0284c7', '#4f46e5', '#d97706'];
+        const presetColors = ['#2563eb', '#0284c7', '#0d9488', '#d97706', '#4f46e5', '#db2777'];
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-4 py-3 rounded-2xl shadow-xl text-xs font-medium text-white transition-all transform duration-300 backdrop-blur-md flex items-center gap-2 ${
-                type === 'warning' ? 'bg-amber-500/90 border border-amber-300/30' : 'bg-slate-900/90 border border-slate-700/50'
+            toast.className = `px-3 py-2 rounded-xl shadow-lg text-xs font-medium text-white transition-all transform duration-300 backdrop-blur-md flex items-center gap-2 ${
+                type === 'warning' ? 'bg-amber-600/90' : 'bg-slate-900/90'
             }`;
             toast.innerHTML = `<span>${type === 'warning' ? '⚠️' : '💡'}</span> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transform = 'translateY(-10px)';
                 setTimeout(() => toast.remove(), 300);
-            }, 3200);
+            }, 3000);
         }
 
         function initApp() {
             renderFunctionList();
             initChart();
             updateAll();
+            setupMobileTouchEvents();
         }
 
         function renderFunctionList() {
@@ -231,20 +231,20 @@
 
             functionsData.forEach((fn, index) => {
                 const item = document.createElement('div');
-                item.className = 'p-4 rounded-2xl border border-sky-100 bg-white/70 shadow-sm flex flex-col gap-3 transition-all duration-200 hover:shadow-md';
+                item.className = 'p-3 rounded-2xl border border-sky-100 bg-white/80 shadow-sm flex flex-col gap-2.5';
                 
                 item.innerHTML = `
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                        <div class="flex items-center gap-2.5">
-                            <input type="color" value="${fn.color}" onchange="updateColor(${fn.id}, this.value)" class="w-6 h-6 rounded-lg cursor-pointer border-0 shadow-sm">
-                            <span class="font-bold text-sm text-slate-800">ฟังก์ชันที่ ${index + 1}</span>
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <div class="flex items-center gap-2">
+                            <input type="color" value="${fn.color}" onchange="updateColor(${fn.id}, this.value)" class="w-5 h-5 rounded cursor-pointer border-0">
+                            <span class="font-bold text-xs text-slate-800">ฟังก์ชันที่ ${index + 1}</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <button onclick="toggleVisibility(${fn.id})" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer font-medium transition">
+                        <div class="flex items-center gap-1">
+                            <button onclick="toggleVisibility(${fn.id})" class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600">
                                 ${fn.visible ? '👁️ แสดง' : '🚫 ซ่อน'}
                             </button>
                             ${functionsData.length > 1 ? `
-                                <button onclick="removeFunction(${fn.id})" class="text-[11px] px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 cursor-pointer font-medium transition">
+                                <button onclick="removeFunction(${fn.id})" class="text-[10px] px-2 py-0.5 rounded bg-rose-50 text-rose-600">
                                     ลบ
                                 </button>
                             ` : ''}
@@ -252,21 +252,21 @@
                     </div>
 
                     <!-- Sliders & Inputs -->
-                    <div class="flex flex-col gap-2.5 text-xs">
-                        <div class="flex items-center gap-3">
-                            <span class="w-10 font-semibold text-slate-500">ค่า a:</span>
-                            <input type="range" min="-10" max="10" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="flex-grow cursor-pointer">
-                            <input type="number" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="w-14 bg-sky-50/50 border border-sky-200 rounded-lg px-1.5 py-1 text-center font-bold text-blue-900 focus:outline-none focus:border-blue-500">
+                    <div class="flex flex-col gap-2 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 font-semibold text-slate-500">ค่า a:</span>
+                            <input type="range" min="-10" max="10" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="flex-grow">
+                            <input type="number" step="0.1" value="${fn.a}" oninput="updateParam(${fn.id}, 'a', this.value)" class="w-12 bg-sky-50 border border-sky-200 rounded py-0.5 text-center font-bold text-blue-900">
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="w-10 font-semibold text-slate-500">ค่า b:</span>
-                            <input type="range" min="-20" max="20" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="flex-grow cursor-pointer">
-                            <input type="number" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="w-14 bg-sky-50/50 border border-sky-200 rounded-lg px-1.5 py-1 text-center font-bold text-blue-900 focus:outline-none focus:border-blue-500">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 font-semibold text-slate-500">ค่า b:</span>
+                            <input type="range" min="-30" max="30" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="flex-grow">
+                            <input type="number" step="0.5" value="${fn.b}" oninput="updateParam(${fn.id}, 'b', this.value)" class="w-12 bg-sky-50 border border-sky-200 rounded py-0.5 text-center font-bold text-blue-900">
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="w-10 font-semibold text-slate-500">ค่า c:</span>
-                            <input type="range" min="-30" max="30" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="flex-grow cursor-pointer">
-                            <input type="number" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="w-14 bg-sky-50/50 border border-sky-200 rounded-lg px-1.5 py-1 text-center font-bold text-blue-900 focus:outline-none focus:border-blue-500">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 font-semibold text-slate-500">ค่า c:</span>
+                            <input type="range" min="-50" max="50" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="flex-grow">
+                            <input type="number" step="0.5" value="${fn.c}" oninput="updateParam(${fn.id}, 'c', this.value)" class="w-12 bg-sky-50 border border-sky-200 rounded py-0.5 text-center font-bold text-blue-900">
                         </div>
                     </div>
                 `;
@@ -288,7 +288,7 @@
                             type: 'linear', 
                             position: 'center', 
                             grid: { color: 'rgba(226, 232, 240, 0.8)' }, 
-                            ticks: { font: { family: 'Prompt' } },
+                            ticks: { font: { family: 'Prompt', size: 10 } },
                             min: -10, 
                             max: 10 
                         },
@@ -296,28 +296,13 @@
                             type: 'linear', 
                             position: 'center', 
                             grid: { color: 'rgba(226, 232, 240, 0.8)' }, 
-                            ticks: { font: { family: 'Prompt' } },
+                            ticks: { font: { family: 'Prompt', size: 10 } },
                             min: -10, 
                             max: 10 
                         }
                     },
                     plugins: {
-                        legend: { display: true, position: 'bottom', labels: { font: { family: 'Prompt', size: 11 } } },
-                        zoom: {
-                            pan: {
-                                enabled: true,
-                                mode: 'xy',
-                            },
-                            zoom: {
-                                wheel: {
-                                    enabled: true,
-                                },
-                                pinch: {
-                                    enabled: true
-                                },
-                                mode: 'xy',
-                            }
-                        },
+                        legend: { display: true, position: 'bottom', labels: { font: { family: 'Prompt', size: 10 } } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -330,6 +315,84 @@
             });
         }
 
+        /* Mobile Touch & Drag Handler */
+        function setupMobileTouchEvents() {
+            const canvas = document.getElementById('quadraticChart');
+            let isDragging = false;
+            let startX, startY;
+            let minX, maxX, minY, maxY;
+
+            // Touch Start
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    minX = chartInstance.options.scales.x.min;
+                    maxX = chartInstance.options.scales.x.max;
+                    minY = chartInstance.options.scales.y.min;
+                    maxY = chartInstance.options.scales.y.max;
+                }
+            }, { passive: true });
+
+            // Touch Move
+            canvas.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const dx = e.touches[0].clientX - startX;
+                const dy = e.touches[0].clientY - startY;
+
+                const chartWidth = chartInstance.chartArea.right - chartInstance.chartArea.left;
+                const chartHeight = chartInstance.chartArea.bottom - chartInstance.chartArea.top;
+
+                const xRange = maxX - minX;
+                const yRange = maxY - minY;
+
+                const xChange = (dx / chartWidth) * xRange;
+                const yChange = (dy / chartHeight) * yRange;
+
+                chartInstance.options.scales.x.min = minX - xChange;
+                chartInstance.options.scales.x.max = maxX - xChange;
+                chartInstance.options.scales.y.min = minY + yChange;
+                chartInstance.options.scales.y.max = maxY + yChange;
+
+                chartInstance.update('none');
+            }, { passive: true });
+
+            // Touch End
+            canvas.addEventListener('touchend', () => { isDragging = false; });
+        }
+
+        /* ปุ่มควบคุมมุมมองทิศทางบนมือถือ */
+        function panGraph(dx, dy) {
+            if (!chartInstance) return;
+            chartInstance.options.scales.x.min += dx;
+            chartInstance.options.scales.x.max += dx;
+            chartInstance.options.scales.y.min += dy;
+            chartInstance.options.scales.y.max += dy;
+            chartInstance.update('none');
+        }
+
+        function zoomGraph(factor) {
+            if (!chartInstance) return;
+            const xMin = chartInstance.options.scales.x.min;
+            const xMax = chartInstance.options.scales.x.max;
+            const yMin = chartInstance.options.scales.y.min;
+            const yMax = chartInstance.options.scales.y.max;
+
+            const xCenter = (xMin + xMax) / 2;
+            const yCenter = (yMin + yMax) / 2;
+
+            const xRange = (xMax - xMin) * factor;
+            const yRange = (yMax - yMin) * factor;
+
+            chartInstance.options.scales.x.min = xCenter - xRange / 2;
+            chartInstance.options.scales.x.max = xCenter + xRange / 2;
+            chartInstance.options.scales.y.min = yCenter - yRange / 2;
+            chartInstance.options.scales.y.max = yCenter + yRange / 2;
+
+            chartInstance.update('none');
+        }
+
         function updateAll() {
             if (!chartInstance) return;
 
@@ -340,7 +403,7 @@
                 if (!fn.visible) return;
 
                 let dataPoints = [];
-                for (let x = -50; x <= 50; x += 0.2) {
+                for (let x = -100; x <= 100; x += 0.2) {
                     let y = fn.a * Math.pow(x, 2) + fn.b * x + fn.c;
                     dataPoints.push({ x: parseFloat(x.toFixed(2)), y: parseFloat(y.toFixed(2)) });
                 }
@@ -365,7 +428,7 @@
                     k = fn.a * Math.pow(h, 2) + fn.b * h + fn.c;
                     delta = Math.pow(fn.b, 2) - 4 * fn.a * fn.c;
                     
-                    shapeText = fn.a > 0 ? 'พาราโบลาหงาย (จุดต่ำสุด)' : 'พาราโบลาคว่ำ (จุดสูงสุด)';
+                    shapeText = fn.a > 0 ? 'หงาย (จุดต่ำสุด)' : 'คว่ำ (จุดสูงสุด)';
                     
                     let hSign = h >= 0 ? `- ${h.toFixed(2)}` : `+ ${Math.abs(h).toFixed(2)}`;
                     let kSign = k >= 0 ? `+ ${k.toFixed(2)}` : `- ${Math.abs(k).toFixed(2)}`;
@@ -378,8 +441,7 @@
                         backgroundColor: '#ffffff',
                         borderColor: fn.color,
                         borderWidth: 3,
-                        pointRadius: 7,
-                        pointHoverRadius: 9
+                        pointRadius: 6
                     });
 
                     // Real Roots Calculation
@@ -399,13 +461,13 @@
                             backgroundColor: '#10b981',
                             borderColor: '#047857',
                             borderWidth: 2,
-                            pointRadius: 6
+                            pointRadius: 5
                         });
                     });
 
                 } else {
-                    shapeText = 'ฟังก์ชันเชิงเส้น (ไม่ใช่พาราโบลา)';
-                    vertexFormText = 'ไม่มี (เนื่องจากเป็นเส้นตรง)';
+                    shapeText = 'เส้นตรง';
+                    vertexFormText = 'ไม่มี';
                 }
 
                 // Y-intercept Marker
@@ -420,24 +482,17 @@
 
                 // Render Analysis HTML Card
                 analysisHTML += `
-                    <div class="p-4 bg-white/80 rounded-2xl border border-sky-100 flex flex-col gap-2 shadow-sm">
-                        <div class="flex items-center justify-between border-b border-sky-100 pb-2">
-                            <span class="font-bold text-slate-800 text-xs">ฟังก์ชันที่ ${index + 1}</span>
-                            <span class="w-3.5 h-3.5 rounded-full shadow-sm" style="background-color: ${fn.color}"></span>
+                    <div class="p-3 bg-white/90 rounded-2xl border border-sky-100 flex flex-col gap-1.5 shadow-sm text-[11px]">
+                        <div class="flex items-center justify-between border-b border-sky-100 pb-1">
+                            <span class="font-bold text-slate-800">ฟังก์ชันที่ ${index + 1}</span>
+                            <span class="w-3 h-3 rounded-full" style="background-color: ${fn.color}"></span>
                         </div>
-                        <div class="space-y-1.5 text-[11px] text-slate-600">
-                            <p><strong>ลักษณะกราฟ:</strong> <span class="text-slate-800 font-medium">${shapeText}</span></p>
-                            <p><strong>รูปมาตรฐาน:</strong> <span class="font-mono text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">${vertexFormText}</span></p>
-                            <p><strong>จุดยอด (Vertex):</strong> ${isQuadratic ? `<span class="font-semibold text-slate-800">(${h.toFixed(2)}, ${k.toFixed(2)})</span>` : 'ไม่มี'}</p>
-                            <p><strong>แกนสมมาตร:</strong> ${isQuadratic ? `x = ${h.toFixed(2)}` : 'ไม่มี'}</p>
-                            <p><strong>จุดตัดแกน Y:</strong> (0, ${fn.c})</p>
-                            <p><strong>ค่าดิสคริมิแนนท์ (Δ):</strong> ${isQuadratic ? delta.toFixed(2) : 'N/A'}</p>
-                            <p><strong>จุดตัดแกน X:</strong> ${
-                                !isQuadratic ? (fn.b !== 0 ? `(${(-fn.c/fn.b).toFixed(2)}, 0)` : 'ไม่มี') :
-                                delta > 0 ? `2 จุด คือ (${roots[0].toFixed(2)}, 0) และ (${roots[1].toFixed(2)}, 0)` :
-                                delta === 0 ? `1 จุด คือ (${roots[0].toFixed(2)}, 0)` : '<span class="text-rose-500 font-medium">ไม่ตัดแกน X</span>'
-                            }</p>
-                        </div>
+                        <p><strong>ลักษณะ:</strong> ${shapeText}</p>
+                        <p><strong>Vertex Form:</strong> <span class="font-mono text-blue-700 font-semibold">${vertexFormText}</span></p>
+                        <p><strong>จุดยอด:</strong> ${isQuadratic ? `(${h.toFixed(2)}, ${k.toFixed(2)})` : 'ไม่มี'}</p>
+                        <p><strong>แกนสมมาตร:</strong> ${isQuadratic ? `x = ${h.toFixed(2)}` : 'ไม่มี'}</p>
+                        <p><strong>จุดตัด Y:</strong> (0, ${fn.c})</p>
+                        <p><strong>Δ (b²-4ac):</strong> ${isQuadratic ? delta.toFixed(2) : 'N/A'}</p>
                     </div>
                 `;
             });
@@ -445,7 +500,7 @@
             chartInstance.data.datasets = datasets;
             chartInstance.update();
 
-            document.getElementById('analysis-results').innerHTML = analysisHTML || '<div class="p-4 text-slate-400 text-center col-span-2">ไม่มีฟังก์ชันที่แสดงผลในขณะนี้</div>';
+            document.getElementById('analysis-results').innerHTML = analysisHTML || '<div class="p-3 text-slate-400 text-center col-span-2">ไม่มีข้อมูล</div>';
         }
 
         function updateParam(id, param, value) {
@@ -476,7 +531,7 @@
 
         function addFunction() {
             if (functionsData.length >= 4) {
-                showToast('สามารถเพิ่มได้สูงสุด 4 ฟังก์ชันพร้อมกันเพื่อความชัดเจน', 'warning');
+                showToast('เพิ่มได้สูงสุด 4 ฟังก์ชัน', 'warning');
                 return;
             }
             let newId = functionsData.length > 0 ? Math.max(...functionsData.map(f => f.id)) + 1 : 1;
@@ -502,12 +557,11 @@
             resetZoom();
             renderFunctionList();
             updateAll();
-            showToast('รีเซ็ตค่าทั้งหมดเรียบร้อย');
+            showToast('รีเซ็ตค่าเรียบร้อย');
         }
 
         function resetZoom() {
             if (!chartInstance) return;
-            chartInstance.resetZoom();
             chartInstance.options.scales.x.min = -10;
             chartInstance.options.scales.x.max = 10;
             chartInstance.options.scales.y.min = -10;
@@ -541,7 +595,7 @@
             chartInstance.options.scales.y.min = minY;
             chartInstance.options.scales.y.max = maxY;
             chartInstance.update();
-            showToast('ปรับมุมมองขอบเขตแกนให้อัตโนมัติเรียบร้อย');
+            showToast('ปรับมุมมองอัตโนมัติเรียบร้อย');
         }
 
         function setQuest(questNo) {
@@ -552,39 +606,30 @@
                     { id: 2, a: 3, b: 0, c: 0, color: '#0284c7', visible: true },
                     { id: 3, a: -1.5, b: 0, c: 0, color: '#0d9488', visible: true }
                 ];
-                showToast('ภารกิจที่ 1: สังเกต |a| ยิ่งมากกราฟยิ่งแคบ, a เป็นบวกหงาย a เป็นลบคว่ำ');
+                showToast('ภารกิจที่ 1: สังเกต |a| และกราฟคว่ำ/หงาย');
             } else if (questNo === 2) {
                 functionsData = [
                     { id: 1, a: 1, b: 0, c: 0, color: '#2563eb', visible: true },
                     { id: 2, a: 1, b: 0, c: 4, color: '#0284c7', visible: true },
                     { id: 3, a: 1, b: 0, c: -5, color: '#4f46e5', visible: true }
                 ];
-                showToast('ภารกิจที่ 2: สังเกตค่า c เลื่อนกราฟขึ้น-ลงตามแนวแกน Y');
+                showToast('ภารกิจที่ 2: สังเกตการเลื่อนขนานตามแกน Y (ค่า c)');
             } else if (questNo === 3) {
                 functionsData = [
                     { id: 1, a: 1, b: -4, c: 2, color: '#2563eb', visible: true },
                     { id: 2, a: 1, b: 4, c: 2, color: '#0284c7', visible: true }
                 ];
-                showToast('ภารกิจที่ 3: การเปลี่ยนค่า b ทำให้แกนสมมาตร (x = -b/2a) เลื่อนซ้าย-ขวา');
+                showToast('ภารกิจที่ 3: สังเกตแกนสมมาตร x = -b/2a');
             } else if (questNo === 4) {
                 functionsData = [
                     { id: 1, a: 1, b: -2, c: -3, color: '#2563eb', visible: true },
                     { id: 2, a: 1, b: -2, c: 1, color: '#0284c7', visible: true },
                     { id: 3, a: 1, b: -2, c: 4, color: '#d97706', visible: true }
                 ];
-                showToast('ภารกิจที่ 4: สังเกตจุดตัดแกน X (สีเขียว) เปรียบเทียบกับค่า Δ = b² - 4ac');
+                showToast('ภารกิจที่ 4: สังเกตจุดตัดแกน X กับค่า Δ = b² - 4ac');
             }
             renderFunctionList();
             updateAll();
-        }
-
-        function exportChart() {
-            if (!chartInstance) return;
-            let link = document.createElement('a');
-            link.download = 'quadratic-graph-analysis.png';
-            link.href = chartInstance.toBase64Image();
-            link.click();
-            showToast('ดาวน์โหลดรูปภาพกราฟเรียบร้อย');
         }
 
         window.onload = initApp;
